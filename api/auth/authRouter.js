@@ -6,10 +6,9 @@ const router = require("express").Router();
 const Users = require("./authModel");
 const { isValid } = require("./authService");
 
-router.post("/register", (req, res) => {
-  const credentials = req.body;
+router.post("/register", isValid, (req, res) => {
+    const credentials = req.body;
 
-  if (isValid(credentials)) {
     const rounds = process.env.BCRYPT_ROUNDS || 8;
 
     // hash the password
@@ -25,11 +24,7 @@ router.post("/register", (req, res) => {
       .catch(error => {
         res.status(500).json({ message: error.message });
       });
-  } else {
-    res.status(400).json({
-      message: "please provide username, password, and user type",
-    });
-  }
+  
 });
 
 router.post("/login", (req, res) => {
