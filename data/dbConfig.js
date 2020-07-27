@@ -5,4 +5,4 @@ require('dotenv').config()
 const env = process.env.NODE_ENV || 'development'
 const configOptions = knexfile[env]
 
-module.exports = knex[configOptions]
+module.exports = knex(configOptions)

@@ -1,4 +1,4 @@
-const db = require("../../data/dbConfig.js");
+const db = require("../../data/dbConfig");
 
 module.exports = {
   add,
@@ -16,6 +16,7 @@ function findBy(filter) {
 }
 
 async function add(user) {
+    console.log('add')
   try {
     const [id] = await db("users").insert(user, "id");
 
