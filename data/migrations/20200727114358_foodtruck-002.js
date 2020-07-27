@@ -5,7 +5,7 @@ exports.up = function(knex) {
         tbl.string('name', 128).notNullable();
         tbl.string('username', 128).notNullable().unique();
         tbl.string('password', 128).notNullable();
-        tbl.enum('userType', ['operator', 'diner']).notNullable();
+        tbl.enu('userType', ['operator', 'diner']).notNullable();
     })
 };
 

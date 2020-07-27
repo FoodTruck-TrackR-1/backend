@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 const router = require("express").Router();
 
 const Users = require("./authModel");
-const { isValid } = require("./authService");
+const { isName, isUsername, isPassword, isOperator } = require("./authService");
 
-router.post("/register", isValid, (req, res) => {
+router.post("/register", isName, isUsername, isPassword, isOperator, (req, res) => {
     const credentials = req.body;
 
     const rounds = process.env.BCRYPT_ROUNDS || 8;
@@ -19,7 +19,10 @@ router.post("/register", isValid, (req, res) => {
     // save the user to the database
     Users.add(credentials)
       .then(user => {
-        res.status(201).json({ data: user });
+        delete user.password
+        const token = createToken(user)
+
+        res.status(201).json({ data: user, token });
       })
       .catch(error => {
         res.status(500).json({ message: error.message });
@@ -27,36 +30,27 @@ router.post("/register", isValid, (req, res) => {
   
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", isUsername, isPassword, (req, res) => {
   const { username, password } = req.body;
 
-  if (isValid(req.body)) {
     Users.findBy({ username: username })
       .then(([user]) => {
         // compare the password the hash stored in the database
         if (user && bcryptjs.compareSync(password, user.password)) {
-          const token = createToken(user);
-          
-          res.status(200).json({ token, message: "Welcome to our API" });
+            delete user.password
+            const token = createToken(user);
+
+            res.status(200).json({ token, message: "Welcome to our API" });
         } else {
-          res.status(401).json({ message: "Invalid credentials" });
+            res.status(401).json({ message: "Invalid credentials" });
         }
       })
       .catch(error => {
         res.status(500).json({ message: error.message });
       });
-  } else {
-    res.status(400).json({
-      message: "please provide username and password and the password shoud be alphanumeric",
-    });
-  }
 });
 function createToken(user){
-  const payload = {
-    subject: user.id,
-    username: user.username,
-    role: user.role,
-  }
+  const payload = user;
 
   const secret = process.env.JWT_SECRET || 'is it secret? is it safe?';
 
