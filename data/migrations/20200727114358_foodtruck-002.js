@@ -5,7 +5,7 @@ exports.up = function(knex) {
         tbl.string('name', 128).notNullable();
         tbl.string('username', 128).notNullable().unique();
         tbl.string('password', 128).notNullable();
-        tbl.enu('userType', ['operator', 'diner']).notNullable();
+        tbl.boolean('is_operator').notNullable().defaultTo(false);
     })
 };
 
