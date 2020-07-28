@@ -2,7 +2,7 @@ module.exports = {
     isName,
     isUsername,
     isPassword,
-    isOperator,
+    
   };
   
   // function isValid(req, res, next) {
@@ -43,17 +43,6 @@ module.exports = {
     } else {
       res.status(400).json({
         message: "please provide password",
-      });
-    }
-  }
-  function isOperator(req, res, next) {
-    const user = req.body;
-    
-    if(user.is_operator){
-      next();
-    } else {
-      res.status(400).json({
-        message: "please provide if user is operator or diner",
       });
     }
   }
