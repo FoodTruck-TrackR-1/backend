@@ -23,8 +23,8 @@ exports.up = function(knex) {
     })
     .createTable('favorites', tbl => {
         tbl.increments();
-        tbl.integer('truck_id').refrences('trucks.id');
-        tbl.integer('diner_id').refrences('users.id');
+        tbl.integer('truck_id').references('trucks.id');
+        tbl.integer('diner_id').references('users.id');
     })
 };
 
