@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 const router = require("express").Router();
 
 const Users = require("./authModel");
-const { isName, isUsername, isPassword, isOperator } = require("./authService");
+const { isName, isUsername, isPassword, } = require("./authService");
 
-router.post("/register", isName, isUsername, isPassword, isOperator, (req, res) => {
+router.post("/register", isName, isUsername, isPassword, (req, res) => {
     const credentials = req.body;
 
     const rounds = process.env.BCRYPT_ROUNDS || 8;
