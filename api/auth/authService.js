@@ -49,11 +49,11 @@ module.exports = {
   function isOperator(req, res, next) {
     const user = req.body;
     
-    if(user.userType){
+    if(user.is_operator){
       next();
     } else {
       res.status(400).json({
-        message: "please provide user type",
+        message: "please provide if user is operator or diner",
       });
     }
   }
