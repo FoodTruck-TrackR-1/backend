@@ -19,10 +19,10 @@ router.get('/trucks/:id', (req, res) => {
 
     Operator.findTruck(id)
         .then(truck => {
-            
+            res.status(200).json({ error: false, data: truck });
         })
         .catch(error => {
-
+            res.status(500).json({ error: false, message: error });
         })
 })
 router.post('/trucks', (req, res) => {
