@@ -40,7 +40,7 @@ router.post("/login", isUsername, isPassword, (req, res) => {
             delete user.password
             const token = createToken(user);
 
-            res.status(200).json({ token, message: "Welcome to our API" });
+            res.status(200).json({ token, data: user });
         } else {
             res.status(401).json({ message: "Invalid credentials" });
         }
