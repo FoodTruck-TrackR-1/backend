@@ -14,10 +14,10 @@ router.get('/:id/favorites', (req, res) => {
             res.status(500).json({ error: true, message: error });
         })
 })
-router.post('/:id/favorites/:truckID', (req, res) => {
-    const { id } = req.params;
-    const { truckID } = req.params;
-    Diner.addFavorite(id, truckID)
+router.post('/favorites', (req, res) => {
+    const favorite = req.body;
+
+    Diner.addFavorite(favorite)
         .then(favorite => {
             res.status(201).json({ error: false, data: favorite });
         })
@@ -25,17 +25,16 @@ router.post('/:id/favorites/:truckID', (req, res) => {
             res.status(500).json({ error: true, message: error });
         })
 })
-router.delete('/:id/favorites/:truckID', (req, res) => {
-    const { truckID } = req.params;
+router.delete('/favorites/:id', (req, res) => {
     const { id } = req.params;
-
-    Diner.removeFavorite(id, truckID)
-        .then(deleted => {
-            res.json({ error: false, data: deleted });
-        })
-        .catch(error => {
-            res.status(500).json({ error: true, message: error });
-        })
+    
+        Diner.removeFavorite(id)
+            .then(deleted => {
+                res.json({ error: false, data: deleted });
+            })
+            .catch(error => {
+                res.status(500).json({ error: true, message: error });
+            })
 })
 
 router.get('/trucks', (req, res) => {

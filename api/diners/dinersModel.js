@@ -9,10 +9,10 @@ module.exports = {
    findTrucks,
 };
 // favorites list
-async function addFavorite(fav) {
+async function addFavorite(favorite) {
     
     try {
-        const [id] = await db("favorites").insert(fav, "id");
+        const [id] = await db("favorites").insert(favorite, "id");
     
         return getFavorite(id);
       } catch (error) {
@@ -22,17 +22,20 @@ async function addFavorite(fav) {
 function getFavorite(id) {
     return db('favorites').select('favorites.*').where({ id }).first();
 }
-function getFavorites(id) {
-    return db('favorites')
-    .join('users', 'users.id', 'favorites.diner_id')
-    .select('favorites.*')
-    .where('favorites.diner_id', id)
+async function getFavorites(id) {
+    try {
+        const [favorite] = await db('favorites')
+        .join('users', 'users.id', 'favorites.diner_id')
+        .select('favorites.*')
+        .where('favorites.diner_id', id)
+        
+        return findTruck(favorite.truck_id)
+    } catch (error) {
+        throw error;
+    }
 }
-function removeFavorite(id, truckID) {
-    return db('favorites')
-    .join('trucks', 'trucks.id', 'favorites.truck_id')
-    .where('favorites.truck_id', truckID && 'favorites.diner_id', id)
-    .del()
+function removeFavorite(id) {
+   return db('favorites').where({ id }).del();
 }
 
 // truck and menu search
@@ -44,7 +47,7 @@ function findTruck(id) {
 }
 function findMenu(truckID) {
     return db('menu_items')
-    .join('trucks', 'trucks.id', 'menu_items.truck_id')
-    .select('menu_items.*')
-    .where('menu_items.truck_id', truckID)
+        .join('trucks', 'trucks.id', 'menu_items.truck_id')
+        .select('menu_items.*')
+        .where('menu_items.truck_id', truckID)
 }
