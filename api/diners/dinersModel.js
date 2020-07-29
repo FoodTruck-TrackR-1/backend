@@ -24,12 +24,12 @@ function getFavorite(id) {
 }
 async function getFavorites(id) {
     try {
-        const [favorite] = await db('favorites')
-        .join('users', 'users.id', 'favorites.diner_id')
-        .select('favorites.*')
+        const favorites = await db('favorites')
+        .join('trucks', 'trucks.id', 'favorites.truck_id')
+        .select('*')
         .where('favorites.diner_id', id)
-        
-        return findTruck(favorite.truck_id)
+
+        return favorites;
     } catch (error) {
         throw error;
     }
