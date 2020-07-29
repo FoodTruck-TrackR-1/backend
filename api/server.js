@@ -12,10 +12,11 @@ const authRouter = require('./auth/authRouter');
 const operatorRouter = require('./operators/operatorsRouter');
 const dinerRouter = require('./diners/dinersRouter');
 const { operatorCheck } = require('./operators/operatorMiddleware');
+const authenticate = require('./auth/restricted-middleware');
 
 server.use('/api/auth', authRouter);
-server.use('/api/operators', operatorCheck, operatorRouter);
-server.use('/api/diners', dinerRouter);
+server.use('/api/operators', authenticate, operatorCheck, operatorRouter);
+server.use('/api/diners', authenticate, dinerRouter);
 
 
 
