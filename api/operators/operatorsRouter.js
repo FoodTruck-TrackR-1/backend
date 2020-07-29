@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Operator = require('./operatorsModel');
 
-router.get('/trucks/:id', (req, res) => {
+router.get('/:id/trucks', (req, res) => {
     const { id } = req.params;
 
     Operator.findTrucks(id)
@@ -14,7 +14,17 @@ router.get('/trucks/:id', (req, res) => {
             res.status(500).json({ error: true, message: error});
         })
 })
+router.get('/trucks/:id', (req, res) => {
+    const { id } = req.params;
 
+    Operator.findTruck(id)
+        .then(truck => {
+            
+        })
+        .catch(error => {
+
+        })
+})
 router.post('/trucks', (req, res) => {
     const truck = req.body;
     
@@ -65,7 +75,7 @@ router.delete('/trucks/:truckID', (req, res) => {
  
 })
 
-router.get('/menu/:id', (req, res) => {
+router.get('/trucks/:id/menu', (req, res) => {
     const { id } = req.params;
 
     Operator.findItems(id)

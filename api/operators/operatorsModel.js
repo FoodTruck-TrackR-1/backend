@@ -14,11 +14,14 @@ module.exports = {
 };
 
 //trucks
-function addTruck(truck) {
-    return db('trucks').insert(truck)
-        .then(data => {
-            console.log(data);
-        })
+async function addTruck(truck) {
+    try {
+        const [id] = await db("trucks").insert(truck, "id");
+    
+        return findTruck(id);
+      } catch (error) {
+        throw error;
+      }
 }
 
 function findTrucks(id) {
@@ -40,11 +43,14 @@ function removeTruck(id) {
 
 
 // menus
-function addMenuItem(item) {
-    return db('menu_items').insert(item)
-        .then(item => {
-            return item
-        })
+async function addMenuItem(item) {
+    try {
+        const [id] = await db("menu_items").insert(item, "id");
+    
+        return findItem(id);
+      } catch (error) {
+        throw error;
+      }
 }
 
 function findItems(truckID) {
