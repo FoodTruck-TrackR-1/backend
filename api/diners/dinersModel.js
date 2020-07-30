@@ -26,7 +26,7 @@ async function getFavorites(id) {
     try {
         const favorites = await db('favorites')
         .join('trucks', 'trucks.id', 'favorites.truck_id')
-        .select('*')
+        .select('favorites.id', 'favorites.truck_id', 'favorites.diner_id', 'trucks.name', 'trucks.cuisine_type', 'trucks.truck_image', 'trucks.operator_id',)
         .where('favorites.diner_id', id)
 
         return favorites;
