@@ -38,9 +38,8 @@ router.delete('/favorites/:id', (req, res) => {
 })
 
 router.get('/trucks', (req, res) => {
-    const { id } = req.params;
 
-    Diner.findTrucks(id)
+    Diner.findTrucks()
         .then(trucks => {
             res.status(200).json({ error: false, data: trucks });
         })
