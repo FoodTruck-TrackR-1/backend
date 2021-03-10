@@ -15,7 +15,7 @@ module.exports = {
 
   function isName(req, res, next) {
     const user = req.body;
-    console.log(user)
+    
     if(user.name){
       next();
     } else {
